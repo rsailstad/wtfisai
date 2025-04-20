@@ -1,0 +1,49 @@
+<% content_for :header do %>
+  Learning Paths
+<% end %>
+
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">All Learning Paths</h3>
+    <%= link_to "New Learning Path", new_admin_section_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" %>
+  </div>
+  <div class="border-t border-gray-200">
+    <ul role="list" class="divide-y divide-gray-200">
+      <% @sections.each do |section| %>
+        <li>
+          <div class="px-4 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <p class="text-sm font-medium text-indigo-600 truncate">
+                  <%= section.title %>
+                </p>
+                <% if section.premium? %>
+                  <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Premium
+                  </span>
+                <% end %>
+              </div>
+              <div class="flex space-x-2">
+                <%= link_to "View", admin_section_path(section), class: "inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+                <%= link_to "Edit", edit_admin_section_path(section), class: "inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+                <%= button_to "Delete", admin_section_path(section), method: :delete, class: "inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-red-700 bg-white hover:bg-red-50", form: { data: { turbo_confirm: "Are you sure?" } } %>
+              </div>
+            </div>
+            <div class="mt-2 sm:flex sm:justify-between">
+              <div class="sm:flex">
+                <p class="flex items-center text-sm text-gray-500">
+                  Order: <%= section.order %>
+                </p>
+              </div>
+              <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                <p>
+                  <%= pluralize(section.contents.count, 'content item') %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div> 
